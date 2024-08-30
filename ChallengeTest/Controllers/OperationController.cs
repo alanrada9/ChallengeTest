@@ -7,7 +7,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ChallengeTest.Controllers
 {
@@ -37,22 +36,40 @@ namespace ChallengeTest.Controllers
         [HttpGet("balance")]
         public async Task<IActionResult> GetBalance(GetBalanceByCardNumberQuery req)
         {
-            return Ok(await QueryAsync(req));
+            var result = await QueryAsync(req);
+
+            if (result!=null)
+            {
+                await QueryAsync(req);
+            }
+            return NoContent();
+
         }
 
         [Authorize]
-        [HttpGet("Withdraw")]
+        [HttpGet("withdraw")]
         public async Task<IActionResult> Withdraw(WithdrawnQuery req)
         {
+            var result = await QueryAsync(req);
 
-            return Ok(await QueryAsync(req));
+            if (result != null)
+            {
+                await QueryAsync(req);
+            }
+            return NoContent();
         }
         [Authorize]
-        [HttpGet("Operations")]
+        [HttpGet("operations")]
         public async Task<IActionResult> GetOperationsDetails(GetOperationQuery req)
         {
 
-            return Ok(await QueryAsync(req));
+            var result = await QueryAsync(req);
+
+            if (result != null)
+            {
+                await QueryAsync(req);
+            }
+            return NoContent();
         }
     }
 }
