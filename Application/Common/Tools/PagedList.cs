@@ -2,6 +2,10 @@
 {
     public class PagedList<T>
     {
+        public PagedList()
+        {
+            
+        }
         public IEnumerable<T> Items { get; }
         public int TotalCount { get; }
         public int PageNumber { get; }

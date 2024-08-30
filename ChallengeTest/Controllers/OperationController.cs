@@ -1,8 +1,11 @@
-﻿using Application.Queries.Balance;
+﻿using Application.Common.Exceptions;
+using Application.Common.Tools;
+using Application.Queries.Balance;
 using Application.Queries.Cards;
 using Application.Queries.Operations;
 using Application.Queries.Token.GetToken;
 using Application.Queries.Withdraws;
+using ChallengeTest.Model;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +20,7 @@ namespace ChallengeTest.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> GetToken(GetTokenQuery req)
+        public async Task<Result<TokenResponseDto>> GetToken(GetTokenQuery req)
         {
             var isValid = await QueryAsync(new GetCardsByIdQuery()
             {
@@ -27,49 +30,36 @@ namespace ChallengeTest.Controllers
 
             if (isValid)
             {
-                return Ok(await QueryAsync(req));
-            }
+                Result<TokenResponseDto> result = await QueryAsync(req);
 
-            return Unauthorized();
+                return result;
+            }
+            return null;
         }
         [Authorize]
         [HttpGet("balance")]
-        public async Task<IActionResult> GetBalance(GetBalanceByCardNumberQuery req)
+        public async Task<Result<BalanceResponse>> GetBalance(GetBalanceByCardNumberQuery req)
         {
-            var result = await QueryAsync(req);
+            Result<BalanceResponse> result = await QueryAsync(req);
 
-            if (result!=null)
-            {
-                await QueryAsync(req);
-            }
-            return NoContent();
-
+            return result;
         }
 
         [Authorize]
         [HttpGet("withdraw")]
-        public async Task<IActionResult> Withdraw(WithdrawnQuery req)
+        public async Task<Result<WithdrawnQueryResponse>> Withdraw(WithdrawnQuery req)
         {
-            var result = await QueryAsync(req);
+            Result<WithdrawnQueryResponse> result = await QueryAsync(req);
 
-            if (result != null)
-            {
-                await QueryAsync(req);
-            }
-            return NoContent();
+            return result;
         }
         [Authorize]
         [HttpGet("operations")]
-        public async Task<IActionResult> GetOperationsDetails(GetOperationQuery req)
+        public async Task<Result<PagedList<TransactionResponse>>> GetOperationsDetails(GetOperationQuery req)
         {
+            Result<PagedList<TransactionResponse>> result = await QueryAsync(req);
 
-            var result = await QueryAsync(req);
-
-            if (result != null)
-            {
-                await QueryAsync(req);
-            }
-            return NoContent();
+            return result;
         }
     }
 }
