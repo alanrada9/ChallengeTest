@@ -14,7 +14,7 @@ namespace Application.Queries.Token.GetToken
 
         public GetTokenCommandHandler(IConfiguration configuration)
         {
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _configuration = configuration;
         }
 
         public async Task<TokenResponseDto> Handle(GetTokenQuery request, CancellationToken cancellationToken)

@@ -26,7 +26,7 @@
             TotalPages = CalculateTotalPages(totalCount, pageSize);
         }
 
-        private int CalculateTotalPages(int totalCount, int pageSize)
+        private static int CalculateTotalPages(int totalCount, int pageSize)
         {
             return (int)Math.Ceiling(totalCount / (double)pageSize);
         }
